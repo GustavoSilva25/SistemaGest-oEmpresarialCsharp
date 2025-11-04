@@ -1,0 +1,83 @@
+﻿@using Microsoft.VisualBasic
+@using System.Diagnostics.Eventing.Reader
+
+@model IEnumerable<SistemaDeCadastroEmp.Models.Empresa>
+@{
+    ViewData["Title"] = "Home";
+}
+
+ <div class="container py-4">
+    <form asp-action="index" method="post">
+      <div class="input-group shadow-sm">
+          <input type="text" name="searchString" class="form-control" placeholder="Buscar por nome ou CNPJ..." aria-label="Buscar" aria-describedby="button-addon2">
+      </div>
+    </form>
+  </div>
+
+ <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    @if(Model is null || !Model.Any())
+    {
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class=" mb-0"> Nenhuma empresa encontrada.</h5> 
+      </div>
+    }
+    else {
+      @foreach (var empresa in Model)
+      {
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0 rounded-3">
+            <div class="card-body p-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="text-primary mb-0">@empresa.RazaoSocial</h5>
+              </div>
+
+              <p class="mb-1"><strong>Nome Fantasia:</strong> @empresa.NomeFantasia</p>
+              <p class="mb-1"><strong>CNPJ:</strong> @empresa.CNPJ</p>
+              <p class="mb-2"><strong>Área:</strong> @empresa.AreaAtuacao</p>
+
+              <div class="border-top pt-2 mt-2 small text-muted">
+                <!-- Endereço -->
+                @if (empresa.endereco != null)
+                {
+                  <p class="mb-1">
+                    <i class="bi bi-geo-alt"></i>
+                    @empresa.endereco.Rua, @empresa.endereco.Numero — @empresa.endereco.Bairro
+                  </p>
+                  <p class="mb-1">
+                    @empresa.endereco.Cidade - @empresa.endereco.Estado, CEP: @empresa.endereco.Cep
+                  </p>
+                }
+
+                <!-- Contato -->
+                @if (empresa.contato != null)
+                {
+                  <p class="mb-1">
+                    <i class="bi bi-envelope"></i>
+                    @empresa.contato.email
+                  </p>
+                  <p class="mb-0">
+                    <i class="bi bi-telephone"></i>
+                    @empresa.contato.telefone
+                  </p>
+                }
+              </div>
+            </div>
+
+            <div class="card-footer bg-white border-0 d-flex justify-content-end pt-0 pb-3">
+              <form asp-action="editar"  asp-controller="Empresa" asp-route-id="@empresa.IdEmpresa" method="get">
+                <button type="submit" class="btn btn-outline-primary btn-sm me-2">
+                  <i class="bi bi-pencil"></i> Editar
+                </button>
+              </form>
+              <form asp-action="delete" asp-route-id="@empresa.IdEmpresa" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta empresa?');">
+                <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-trash"></i> Excluir
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+

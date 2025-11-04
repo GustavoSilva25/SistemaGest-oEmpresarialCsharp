@@ -1,0 +1,119 @@
+
+@model EmpresaViewModel
+
+@{  
+    @*Verificar se é para editar ou criar *@
+    bool eEdicao = Model?.IdEmpresa > 0;
+    var action = eEdicao ? "atualizarEmpresa" : "adicionarEmpresa";
+    var  route = eEdicao ? $"{@Model.IdEmpresa}" : "";
+    ViewData["Title"] = eEdicao ? "Editar Empresa": "Cadastrar Empresa";
+}
+
+
+<div class="container">
+  <div class="form-container">
+    <h2 class="form-title">@ViewData["Title"]</h2>
+
+
+    <form method="post" asp-action="@action" asp-route-id=@route >
+
+      <input type="hidden" asp-for="IdEmpresa" />
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label asp-for="RazaoSocial" for="razaoSocial" class="form-label">Razão Social</label>
+          <input asp-for="RazaoSocial" type="text" class="form-control" id="razaoSocial" placeholder="Digite a razão social" >
+          <span asp-validation-for="RazaoSocial" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+          <label asp-for="NomeFantasia" for="nomeFantasia" class="form-label">Nome Fantasia</label>
+          <input asp-for="NomeFantasia" type="text" class="form-control" id="nomeFantasia" placeholder="Digite o nome fantasia" >
+          <span asp-validation-for="NomeFantasia" class="text-danger"></span>
+
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label asp-for="CNPJ" for="cnpj" class="form-label">CNPJ</label>
+          <input asp-for="CNPJ" type="text" class="form-control" id="cnpj" maxlength="14" placeholder="Somente números" >
+          <span asp-validation-for="CNPJ" class="text-danger"></span>
+
+        </div>
+        <div class="col-md-6">
+          <label asp-for="AreaAtuacao"  for="areaAtuacao" class="form-label">Área de Atuação</label>
+          <input asp-for="AreaAtuacao" type="text" class="form-control" id="areaAtuacao" placeholder="Ex: Tecnologia, Comércio, Indústria...">
+          <span asp-validation-for="AreaAtuacao" class="text-danger"></span>
+
+        </div>
+      </div>
+
+      <!-- SEÇÃO: ENDEREÇO -->
+      <h5 class="section-title">Endereço</h5>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label asp-for="Rua" for="rua" class="form-label">Rua</label>
+          <input asp-for="Rua" type="text" class="form-control" id="rua" placeholder="Digite o nome da rua" >
+          <span asp-validation-for="Rua" class="text-danger"></span>
+
+        </div>
+        <div class="col-md-2">
+          <label asp-for="Numero" for="numero" class="form-label">Número</label>
+          <input asp-for="Numero" type="text" class="form-control" id="numero" placeholder="Nº">
+          <span asp-validation-for="Numero" class="text-danger"></span>
+
+        </div>
+        <div class="col-md-4">
+          <label asp-for="Bairro" for="bairro" class="form-label">Bairro</label>
+          <input asp-for="Bairro" type="text" class="form-control" id="bairro" placeholder="Digite o bairro" >
+          <span asp-validation-for="Bairro" class="text-danger"></span>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-5">
+          <label asp-for="Cidade" for="cidade" class="form-label">Cidade</label>
+          <input asp-for="Cidade" type="text" class="form-control" id="cidade" placeholder="Digite a cidade" >
+          <span asp-validation-for="Cidade" class="text-danger"></span>
+          
+        </div>
+        <div class="col-md-2">
+          <label asp-for="Estado" for="estado" class="form-label">Estado</label>
+          <input asp-for="Estado" type="text" class="form-control text-uppercase" id="estado" maxlength="2" placeholder="UF" >
+          <span asp-validation-for="Estado" class="text-danger"></span>
+
+        </div>
+        <div class="col-md-5">
+          <label asp-for="Cep" for="cep" class="form-label">CEP</label>
+          <input asp-for="Cep" type="text" class="form-control" id="cep" placeholder="Ex: 80000000">
+          <span asp-validation-for="Cep" class="text-danger"></span>
+
+        </div>
+      </div>
+
+      <!-- SEÇÃO: CONTATO -->
+      <h5 class="section-title">Contato</h5>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label asp-for="telefone" for="telefone" class="form-label">Telefone</label>
+          <input asp-for="telefone" type="text" class="form-control" id="telefone" placeholder="Ex: (41) 99999-9999" >
+          <span asp-validation-for="telefone" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+          <label asp-for="email" for="email" class="form-label">E-mail</label>
+          <input asp-for="email" type="email" class="form-control" id="email" placeholder="exemplo@email.com" >
+          <span asp-validation-for="email" class="text-danger"></span>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <button type="reset" class="btn btn-outline-secondary me-2">Limpar</button>
+        <button type="submit" class="btn btn-primary">@ViewData["Title"]</button>
+      </div>
+    </form>
+  </div>
+
+  @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+  }
+
+</div>
